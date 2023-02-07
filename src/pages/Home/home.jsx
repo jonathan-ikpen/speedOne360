@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "../../index.css";
+import poster from "../../assets/poster3.png";
 
 import { HomeBtn } from "../../components/Buttons/buttons";
 
@@ -90,12 +91,7 @@ const HeroImg = ({ width = "" }) => {
       <div className="flex justify-center items-center mt-[64px]">
         {/* <img src={imgPath} alt="" width={width} /> */}
         {/* poster="" preload="auto" */}
-        <video
-          id="video"
-          preload="auto"
-          poster="src/assets/poster3.png"
-          ref={ref}
-        >
+        <video id="video" preload="auto" poster={poster} ref={ref}>
           <source
             src="https://res.cloudinary.com/jonathan-ikpen/video/upload/v1675685960/speedOne360/video_2023-02-06_13-07-51_spl70s.mp4"
             type="video/mp4"
