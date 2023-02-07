@@ -10,6 +10,7 @@ import Footer from "./components/Footer/footer.jsx";
 import Container from "./components/Container/index.jsx";
 import Home from "./pages/Home/home.jsx";
 import Register from "./pages/Register/index.jsx";
+import Service from "./pages/Services/service.jsx";
 
 const Layout = () => {
   // const [showLogin, setshowLogin] = useState(true);
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/services",
+        element: <Service />,
       },
     ],
   },
