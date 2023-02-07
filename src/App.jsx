@@ -10,7 +10,7 @@ import Footer from "./components/Footer/footer.jsx";
 import Container from "./components/Container/index.jsx";
 import Home from "./pages/home.jsx";
 import Register from "./pages/register.jsx";
-import Service from "./pages/service.jsx";
+import Service from "./service.jsx";
 
 const Layout = () => {
   // const [showLogin, setshowLogin] = useState(true);
