@@ -7,7 +7,7 @@ const h4styles = "font-bold text-[18px] text-black-3";
 
 const Home = () => {
   return (
-    <main className="">
+    <main className="flex justify-center items-center">
       <Hero />
     </main>
   );
