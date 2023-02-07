@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import getLocation from "../../utils/geolocation";
+import getLocation from "../utils/geolocation";
 
 const Register = () => {
   // const [lat, setLat] = useState();

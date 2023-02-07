@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import "../../index.css";
-import poster from "../../assets/poster3.png";
-
-import { HomeBtn } from "../../components/Buttons/buttons";
+import poster from "../assets/poster3.png";
+import { HomeBtn } from "../components/Buttons/buttons";
 
 const h4styles = "font-bold text-[18px] text-black-3";
 
