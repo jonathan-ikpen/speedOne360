@@ -34,6 +34,21 @@ module.exports = {
     },
     extend: {
       spacing: {},
+      animation: {
+        scaleIn: "scaleIn 4s cubic-bezier(0.36, 0.11, 0.89, 0.32) infinite",
+      },
+      keyframes: {
+        scaleIn: {
+          from: {
+            transform: "scale(0.8, 0.8)",
+            opacity: "1",
+          },
+          to: {
+            transform: "scale(1.5, 1.5)",
+            opacity: "0",
+          },
+        },
+      },
       borderRadius: {},
       fontSize: {
         45: ["34px", "48px"],
@@ -47,6 +62,17 @@ module.exports = {
           4: "#444",
           5: "#555",
           6: "#F9F9F9",
+        },
+        myWhite: {
+          1: " rgba(255, 255, 255, 0.9)",
+          2: "rgba(255, 255, 255, 0.8)",
+          3: "rgba(255, 255, 255, 0.7)",
+          4: "rgba(255, 255, 255, 0.6)",
+          5: "rgba(255, 255, 255, 0.5)",
+          6: "rgba(255, 255, 255, 0.4)",
+          8: "rgba(255, 255, 255, 0.01)",
+          // 8: "rgba(255, 255, 255, 0.05)",
+          // 8: "rgba(0, 0, 0, 0.05)",
         },
         primary2: "#3a7bd5",
         tinted2: "#00d2ff",
