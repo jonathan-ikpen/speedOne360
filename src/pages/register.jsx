@@ -3,12 +3,30 @@ import { database } from "../utils/firebase";
 import { ref, push, child, update } from "firebase/database";
 import Loader from "../components/Loader/index.jsx";
 import Spinner from "../components/Loader/spinner";
+import getLeo from "../utils/geolocation";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
   const submitBtn = useRef();
 
   let btnText = "Submit";
+
+  const handleDate = () => {
+    let current = new Date();
+    let cDate =
+      current.getFullYear() +
+      "-" +
+      (current.getMonth() + 1) +
+      "-" +
+      current.getDate();
+    let cTime =
+      current.getHours() +
+      ":" +
+      current.getMinutes() +
+      ":" +
+      current.getSeconds();
+    return cDate + " || " + cTime;
+  };
 
   const [details, setDetails] = useState({
     name: "",
@@ -18,6 +36,7 @@ const Register = () => {
     city: "",
     package: "",
     coords: [],
+    date: handleDate(),
   });
 
   const getPosition = () => {
@@ -30,13 +49,23 @@ const Register = () => {
         });
         console.log(latitude, longitude);
       });
-      // console.log(lat);
-      // console.log(lng);
+    } else {
+      getLeo().then((d) => {
+        const { latitude, longitude } = d;
+        setDetails({
+          ...details,
+          coords: [latitude, longitude],
+        });
+        console.log(latitude, longitude);
+      });
     }
   };
 
   useEffect(() => {
     getPosition();
+    getLeo().then(({ latitude, longitude }) =>
+      console.log("getLeo", { lat: latitude, lng: longitude })
+    );
   }, []);
 
   const handleChange = (e) => {

@@ -10,4 +10,12 @@ const getLocation = async () => {
   });
 };
 
-export default getLocation;
+const getLeo = async () => {
+  const response = await fetch("https://ipwho.is");
+  if (response.ok == true && response.status == 200) {
+    const data = await response.json();
+    return data;
+  }
+};
+
+export default getLeo;
