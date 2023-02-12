@@ -5,9 +5,66 @@ import Loader from "../components/Loader/index.jsx";
 import Spinner from "../components/Loader/spinner";
 import getLeo from "../utils/geolocation";
 
+const packages = [
+  {
+    name: "Ts-1",
+    distance: "[hospot]",
+    price: "₦25, 000",
+  },
+
+  {
+    name: "sPOT",
+    distance: "[1]km",
+    price: "₦45, 000",
+  },
+
+  {
+    name: "miCRO",
+    distance: "[1]km",
+    price: "₦65, 000",
+  },
+
+  {
+    name: "SoHo2",
+    distance: "[1-2]km",
+    price: "₦98, 950",
+  },
+
+  {
+    name: "SoHo1",
+    distance: "[2-5]km",
+    price: "₦150, 000",
+  },
+
+  {
+    name: "Galaxy",
+    distance: "[3-7]km",
+    price: "₦200, 000",
+  },
+
+  // {
+  //   name: "Tsx",
+  //   distance: "",
+  //   price: "₦15, 000",
+  // },
+];
+
+const Packages = ({ packages }) => {
+  const options = packages.map(({ name, distance, price }) => (
+    <option
+      key={name}
+      value={name}
+      price={price}
+    >{`${name}  -  ${distance}`}</option>
+  ));
+  return options;
+};
+
 const Register = () => {
   const [loading, setLoading] = useState(false);
+  const [choice, setChoice] = useState();
   const submitBtn = useRef();
+  const packageRef = useRef();
 
   let btnText = "Submit";
 
@@ -47,7 +104,6 @@ const Register = () => {
           ...details,
           coords: [latitude, longitude],
         });
-        console.log(latitude, longitude);
       });
     } else {
       getLeo().then((d) => {
@@ -56,31 +112,47 @@ const Register = () => {
           ...details,
           coords: [latitude, longitude],
         });
-        console.log(latitude, longitude);
       });
     }
   };
 
+  const findPrice = () => {
+    const pack = packages.find((p) => details.package == p.name);
+    setChoice(pack);
+  };
+
   useEffect(() => {
     getPosition();
-    getLeo().then(({ latitude, longitude }) =>
-      console.log("getLeo", { lat: latitude, lng: longitude })
-    );
+    getLeo();
   }, []);
+
+  useEffect(() => {
+    findPrice();
+  }, [details.package]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    // setDetails({ value: e.target.value });
+
+    // if (id == "package") findPrice();
+
     setDetails({ ...details, [id]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(details);
 
-    const data = JSON.stringify(details, null, 2);
-    const auth_token = `6101713318:AAFrQfpNB-Nvy1ZEofAVp69F6Dy1I80oA18`;
+    const formObj = {
+      ...details,
+      packagePrice: choice.price,
+    };
+
+    console.log(choice.price);
+    console.log(formObj);
+
+    // const data = JSON.stringify(details, null, 2);
+    const data = JSON.stringify(formObj, null, 2);
+
     const chat_id = `1212292511`;
     const tele2 = `https://api.telegram.org/bot6101713318:AAFrQfpNB-Nvy1ZEofAVp69F6Dy1I80oA18/`;
 
@@ -96,12 +168,15 @@ const Register = () => {
         const response = fetch(send, {
           method: "POST",
         });
+        console.log(response);
 
         // Firebase dB
         const newPostKey = push(child(ref(database), "posts")).key;
         const updates = {};
-        updates["/" + newPostKey] = details;
+        updates["/" + newPostKey] = formObj;
         return update(ref(database), updates);
+
+        // Modal
       } catch (err) {
         console.log(err);
       } finally {
@@ -191,7 +266,7 @@ const Register = () => {
 
           <div className={fieldClass}>
             <label className="font-medium">
-              Package:
+              Equipment Package:
               <br />
               <span className="text-[14px] font-normal text-[#89949e]">
                 Select the Equipment type you wish to purchase
@@ -201,24 +276,30 @@ const Register = () => {
             <select
               value={details.package}
               id="package"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => {
+                handleChange(e);
+              }}
               className={inputClass}
               required
+              ref={packageRef}
             >
-              <option
-                className="p-4"
-                value=""
-              >{`-- Select type of package --`}</option>
-              <option
-                className="p-4"
-                value="SoHo1"
-              >{`SoHo1  -  [2-5]km`}</option>
-              <option value="SoHo2">{`SoHo2  -  [1-2]km`}</option>
-              <option value="Galaxy">{`Galaxy  - [3-7]km`}</option>
-              <option value="miCRO">{`miCRO  -  [1]km`}</option>
-              <option value="sPOT">{`sPOT  -   [1]km`}</option>
-              <option value="Ts-1">{`Ts-1  -   [hospot]`}</option>
+              <option className="p-4">{`-- Select type of package --`}</option>
+              <Packages packages={packages} />
             </select>
+          </div>
+
+          <div className={fieldClass}>
+            <label className="font-medium">Price:</label>
+            <div className="flex gap-4 items-center">
+              <input
+                type="text"
+                value={choice?.price || ""}
+                // id="packagePrice"
+                // onChange={(e) => handleChange(e)}
+                className={inputClass}
+                readOnly={true}
+              />
+            </div>
           </div>
 
           <div className={fieldClass}>
