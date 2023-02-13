@@ -4,6 +4,7 @@ import { ref, push, child, update } from "firebase/database";
 import Loader from "../components/Loader/index.jsx";
 import Spinner from "../components/Loader/spinner";
 import getLeo from "../utils/geolocation";
+import SuccessModal from "../components/Modal/success";
 
 const packages = [
   {
@@ -63,6 +64,7 @@ const Packages = ({ packages }) => {
 const Register = () => {
   const [loading, setLoading] = useState(false);
   const [choice, setChoice] = useState();
+  const [success, setSuccess] = useState(false);
   const submitBtn = useRef();
   const packageRef = useRef();
 
@@ -93,7 +95,6 @@ const Register = () => {
     city: "",
     package: "",
     coords: [],
-    date: handleDate(),
   });
 
   const getPosition = () => {
@@ -130,6 +131,16 @@ const Register = () => {
     findPrice();
   }, [details.package]);
 
+  const handleClose = () => {
+    if (success) setSuccess(false);
+  };
+
+  const modalClick = (e) => {
+    e.stopPropagation();
+    console.log(e.target);
+    setSuccess(true);
+  };
+
   const handleChange = (e) => {
     const { id, value } = e.target;
 
@@ -145,9 +156,9 @@ const Register = () => {
     const formObj = {
       ...details,
       packagePrice: choice.price,
+      date: handleDate(),
     };
 
-    console.log(choice.price);
     console.log(formObj);
 
     // const data = JSON.stringify(details, null, 2);
@@ -168,30 +179,40 @@ const Register = () => {
         const response = fetch(send, {
           method: "POST",
         });
-        console.log(response);
 
         // Firebase dB
         const newPostKey = push(child(ref(database), "posts")).key;
         const updates = {};
         updates["/" + newPostKey] = formObj;
-        return update(ref(database), updates);
+
+        update(ref(database), updates)
+          .then(() => {
+            setSuccess(true);
+
+            setTimeout(() => {
+              setSuccess(false);
+            }, 20000);
+
+            setLoading(false);
+            setDetails({
+              name: "",
+              address: "",
+              phone: "",
+              state: "",
+              city: "",
+              package: "",
+              coords: [],
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
         // Modal
       } catch (err) {
         console.log(err);
-      } finally {
-        setLoading(false);
-        setDetails({
-          name: "",
-          address: "",
-          phone: "",
-          state: "",
-          city: "",
-          package: "",
-          coords: [],
-        });
       }
-    }, 3000);
+    }, 1000);
   };
 
   const fieldClass = "flex flex-col gap-4 text-[16px]";
@@ -199,7 +220,7 @@ const Register = () => {
 
   return (
     <>
-      <main className="flex justify-center items-center">
+      <main className="flex justify-center items-center" onClick={handleClose}>
         <form
           onSubmit={handleSubmit}
           className="flex flex-col gap-6 max-w-[620px] w-[100%]"
@@ -340,6 +361,8 @@ const Register = () => {
               {!loading ? btnText : <Loader />}
             </button>
           </div>
+
+          {success ? <SuccessModal modalClick={modalClick} /> : ""}
         </form>
       </main>
     </>

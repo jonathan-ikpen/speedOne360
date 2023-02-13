@@ -36,6 +36,7 @@ module.exports = {
       spacing: {},
       animation: {
         scaleIn: "scaleIn 4s cubic-bezier(0.36, 0.11, 0.89, 0.32) infinite",
+        fadeIn: "fadeIn 2s ease-in-out",
       },
       keyframes: {
         scaleIn: {
@@ -46,6 +47,14 @@ module.exports = {
           to: {
             transform: "scale(1.5, 1.5)",
             opacity: "0",
+          },
+        },
+        fadeIn: {
+          from: {
+            opacity: "0",
+          },
+          to: {
+            opacity: "1",
           },
         },
       },
