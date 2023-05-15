@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/outline";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Accordion = ({
   question,
@@ -26,24 +27,32 @@ const Accordion = ({
         } focus:outline-none ${classname}`}
         onClick={toggleAccordion}
       >
-        <h3 className=" text-[15px] md:text-xl text-left font-medium text-[#eceded]">
+        <h3
+          className={`text-[15px] md:text-xl text-left ${
+            isOpen && "font-medium"
+          } text-[#eceded]`}
+        >
           {question}
         </h3>
-        {isOpen ? (
-          <ChevronUpIcon className="h-6 w-6 text-[#eceded]" />
-        ) : (
-          <ChevronDownIcon className="h-6 w-6 text-[#eceded]" />
-        )}
+        <ChevronDownIcon
+          className={`h-6 w-6 transition-transform duration-300 ${
+            isOpen ? "transform rotate-180" : ""
+          } text-gray-500`}
+        />
       </button>
-      {isOpen && (
-        <div
-          className={`px-4 py-2 md:px-6 text-sm md:text-lg font-normal leading-[1.5rem] text-gray-100 bg-[#25282C] rounded-b transition-all duration-300 ${
-            isOpen ? "max-h-full" : "max-h-0 overflow-hidden"
-          } `}
-        >
-          {answer}
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="px-4 py-2 md:px-6 text-sm md:text-lg font-normal leading-[1.5rem] text-gray-100 bg-[#25282C] rounded-b overflow-hidden"
+            initial={{ height: 0 }}
+            animate={{ height: "auto" }}
+            exit={{ height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="">{answer}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
