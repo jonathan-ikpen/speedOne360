@@ -9,6 +9,7 @@ import Header from "./components/Header/header.jsx";
 import Footer from "./components/Footer/footer.jsx";
 import Container from "./components/Container/index.jsx";
 import Home from "./pages/home.jsx";
+import Faq from "./pages/faq.jsx";
 import Register from "./pages/register.jsx";
 import Service from "./service.jsx";
 
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "services",
         element: <Service />,
+      },
+      {
+        path: "/faq",
+        element: <Faq />,
       },
     ],
   },
