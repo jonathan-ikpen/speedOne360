@@ -26,7 +26,7 @@ const Accordion = ({
       >
         <h3
           className={`text-[15px] font-thin md:text-xl text-left ${
-            isOpen && "!font-medium text-green-500 "
+            isOpen && "!font-medium !text-green-500 "
           } text-[#eceded] w-[90%]`}
         >
           {question}
