@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -12,14 +12,31 @@ import Home from "./pages/home.jsx";
 import Faq from "./pages/faq.jsx";
 import Register from "./pages/register.jsx";
 import Service from "./service.jsx";
+import SpeedTest from "./pages/speed.jsx";
 
 const Layout = () => {
   // const [showLogin, setshowLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
+
   return (
     <>
-      <Header showLogin={true} />
-      <Outlet />
-      <Footer />
+      {isLoading ? (
+        <SpeedTest targetSpeed={100} />
+      ) : (
+        <div className="flex flex-col min-h-screen">
+          <Header showLogin={true} />
+          <main className="flex-grow">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+      )}
     </>
   );
 };
@@ -56,6 +73,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Registerlayout />,
+  },
+  {
+    path: "/speed",
+    element: <SpeedTest />,
   },
 
   // {

@@ -1,4 +1,5 @@
 import "../../index.css";
+import { Link } from "react-router-dom";
 
 const HomeBtn = ({ url, name, new_class }) => {
   const default_class =
@@ -32,4 +33,15 @@ const LoginBtn = ({ name, url, title, color = "" }) => {
   );
 };
 
-export { HomeBtn, LoginBtn };
+const LinkedBtn = ({ url, name, new_class }) => {
+  const default_class =
+    "max-w-[280px] w-[100%] whitespace-nowrap border-solid border-[1px] text-[18px] text-white font-medium font-rubik tracking-[.02em] leading-7 rounded-[8px] py-[16px] px-[31px] ";
+
+  return (
+    <Link className={default_class + new_class} to={url}>
+      {name}
+    </Link>
+  );
+};
+
+export { HomeBtn, LoginBtn, LinkedBtn };
