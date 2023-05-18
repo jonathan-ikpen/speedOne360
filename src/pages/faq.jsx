@@ -27,7 +27,7 @@ const Faq = () => {
   return (
     <div className="fbg-white fpy-12">
       <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto flex flex-col gap-4 justify-center items-center">
+        <div className="max-w-6xl mx-auto flex flex-col gap-4 justify-center items-center">
           <SearchInput data={faqData} res={handleResult} empty={handleEmpty} />
           <div className="mt-6 first:bg-blue-700 w-full">
             <AnimatePresence>
